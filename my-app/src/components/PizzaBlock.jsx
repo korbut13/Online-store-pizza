@@ -1,7 +1,11 @@
 import { useState } from "react"
 
-export default function PizzaBlock({title, price}){
+export default function PizzaBlock({title, price, imageUrl, sizes, types}){
   const [pizzaCount, setPizzaCount] = useState(0);
+  const [doughType, setDoughType] = useState(0);
+  const [size, setSize] = useState(0);
+  const typesOfDough = ['тонкое', 'традиционное'];
+
   const onClickAdd = () => {
     setPizzaCount(pizzaCount + 1);
   }
@@ -10,19 +14,18 @@ export default function PizzaBlock({title, price}){
     <div className="pizza-block">
     <img
       className="pizza-block__image"
-      src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+      src={imageUrl}
       alt="Pizza"
     />
     <h4 className="pizza-block__title">{title}</h4>
     <div className="pizza-block__selector">
       <ul>
-        <li className="active">тонкое</li>
-        <li>традиционное</li>
+        {types.map(doughIndex => <li onClick={() => setDoughType(doughIndex)} className={doughIndex === doughType ? "active" : " "}>{typesOfDough[doughIndex]}</li>)}
       </ul>
       <ul>
-        <li className="active">26 см.</li>
-        <li>30 см.</li>
-        <li>40 см.</li>
+        {sizes.map((value, index) => {
+          return <li onClick={() => setSize(index)} className={index === size ? "active" : " "}>{value} см</li>
+        })}
       </ul>
     </div>
     <div onClick={onClickAdd} className="pizza-block__bottom">
