@@ -4,10 +4,22 @@ import Header from './components/Header';
 import Categories from './components/Categories';
 import Sort from './components/Sort';
 import PizzaBlock from './components/PizzaBlock';
-import { pizzas } from './db';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 
 function App() {
+  const [pizzas, setPizzas] = useState([]);
+  const url = "https://64ef4b85219b3e2873c4449b.mockapi.io/items";
+
+  useEffect(()=> {
+    fetch(url).then(response => {
+      if(response.ok){
+        return response.json()
+      }
+    }).then(resp => setPizzas(resp))
+  }, []);
+
   return (
     <div className="App">
       <div className="wrapper">
