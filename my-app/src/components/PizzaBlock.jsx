@@ -20,11 +20,11 @@ export default function PizzaBlock({title, price, imageUrl, sizes, types}){
     <h4 className="pizza-block__title">{title}</h4>
     <div className="pizza-block__selector">
       <ul>
-        {types.map(doughIndex => <li onClick={() => setDoughType(doughIndex)} className={doughIndex === doughType ? "active" : " "}>{typesOfDough[doughIndex]}</li>)}
+        {types.map(doughIndex => <li key={doughIndex} onClick={() => setDoughType(doughIndex)} className={doughIndex === doughType ? "active" : " "}>{typesOfDough[doughIndex]}</li>)}
       </ul>
       <ul>
         {sizes.map((value, index) => {
-          return <li onClick={() => setSize(index)} className={index === size ? "active" : " "}>{value} см</li>
+          return <li key={index} onClick={() => setSize(index)} className={index === size ? "active" : " "}>{value} см</li>
         })}
       </ul>
     </div>

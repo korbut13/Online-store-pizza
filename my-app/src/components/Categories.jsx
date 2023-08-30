@@ -8,7 +8,7 @@ export default function Categories(){
     <div className="categories">
     <ul>
       {pizzaCategories.map((category, index)=> {
-        return <li onClick={()=> setActiveCategory(index)} className={activeCategory === index ? "active" : ""}>{category}</li>
+        return <li key={index} onClick={()=> setActiveCategory(index)} className={activeCategory === index ? "active" : ""}>{category}</li>
       })}
     </ul>
   </div>
