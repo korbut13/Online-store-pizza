@@ -19,11 +19,12 @@ export default function Main(){
     }).then(resp => {
       setPizzas(resp);
       setLoading(false)
-    })
+    });
+    window.scrollTo(0,0)
   }, []);
 
   return (
-    <>
+    <div className="container">
     <div className="content__top">
         <Categories/>
         <Sort/>
@@ -34,6 +35,6 @@ export default function Main(){
         ? [...new Array(8)].map((skeleton, id) => <PizzaSkeleton key={id}/>)
         : pizzas.map(pizza => <PizzaBlock key={pizza.id} {...pizza}/>)}
       </div>
-    </>
+    </div>
   )
 }

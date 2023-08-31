@@ -2,7 +2,9 @@ import '../src/scss/app.scss';
 import {Routes, Route} from 'react-router-dom'
 
 import Header from './components/Header';
-import Main from './pages/Main'
+import Main from './pages/Main';
+import Cart from './pages/Cart';
+import NotFoundPage from './pages/NotFound';
 
 function App() {
   return (
@@ -10,11 +12,11 @@ function App() {
       <div className="wrapper">
         <Header/>
         <div className="content">
-          <div className="container">
-            <Routes>
-              <Route path='/' element={<Main/>}/>
-            </Routes>
-          </div>
+          <Routes>
+            <Route path='/' element={<Main/>}/>
+            <Route path='/cart' element={<Cart/>}/>
+            <Route path='*' element={<NotFoundPage/>}/>
+          </Routes>
         </div>
       </div>
     </div>

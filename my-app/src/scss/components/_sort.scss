@@ -1,10 +1,13 @@
 @import '../variables';
 
 .sort {
+
   position: relative;
   &__label {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
 
     svg {
       margin-right: 8px;
