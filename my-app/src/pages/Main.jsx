@@ -6,7 +6,7 @@ import PizzaBlock from "../components/PizzaBlock";
 import PizzaSkeleton from "../components/PizzaBlockSkeleton";
 import createUrl from '../utils/createUrl';
 
-export default function Main(){
+export default function Main({searchValue}){
   const valuesSorting = ['rating', 'price&order=asc', 'price&order=desc', 'title&order=asc', 'title&order=desc'];
 
   const [pizzas, setPizzas] = useState([]);
@@ -16,7 +16,8 @@ export default function Main(){
 
   useEffect(()=> {
     const valueSort = valuesSorting[sortId];
-    let url =  createUrl(category, valueSort);
+    let url =  createUrl(category, valueSort, searchValue);
+    console.log(555, url)
 
     fetch(url).then(response => {
       if(response.ok){
@@ -27,7 +28,7 @@ export default function Main(){
       setLoading(false)
     });
     window.scrollTo(0,0)
-  }, [category, sortId]);
+  }, [category, sortId, searchValue]);
 
   return (
     <div className="container">
