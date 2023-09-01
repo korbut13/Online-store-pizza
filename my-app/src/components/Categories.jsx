@@ -1,14 +1,12 @@
 import { useState } from "react";
 
-export default function Categories(){
-  const [activeCategory, setActiveCategory] = useState(0);
+export default function Categories({category, onClickCategory}){
   const pizzaCategories = ["Все","Мясные","Вегетарианская","Гриль","Острые","Закрытые"];
-
   return (
     <div className="categories">
     <ul>
-      {pizzaCategories.map((category, index)=> {
-        return <li key={index} onClick={()=> setActiveCategory(index)} className={activeCategory === index ? "active" : ""}>{category}</li>
+      {pizzaCategories.map((categoryName, index)=> {
+        return <li key={index} onClick={()=> onClickCategory(index)} className={category === index ? "active" : ""}>{categoryName}</li>
       })}
     </ul>
   </div>

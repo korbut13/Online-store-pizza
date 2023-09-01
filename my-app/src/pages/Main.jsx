@@ -4,14 +4,20 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import PizzaSkeleton from "../components/PizzaBlockSkeleton";
+import createUrl from '../utils/createUrl';
 
 export default function Main(){
+  const valuesSorting = ['rating', 'price&order=asc', 'price&order=desc', 'title&order=asc', 'title&order=desc'];
 
   const [pizzas, setPizzas] = useState([]);
   const [loading, setLoading] = useState(true);
-  const url = "https://64ef4b85219b3e2873c4449b.mockapi.io/items";
+  const [category, setCategory] = useState(0);
+  const [sortId, setSortId] = useState(0);
 
   useEffect(()=> {
+    const valueSort = valuesSorting[sortId];
+    let url =  createUrl(category, valueSort);
+
     fetch(url).then(response => {
       if(response.ok){
         return response.json()
@@ -21,13 +27,13 @@ export default function Main(){
       setLoading(false)
     });
     window.scrollTo(0,0)
-  }, []);
+  }, [category, sortId]);
 
   return (
     <div className="container">
     <div className="content__top">
-        <Categories/>
-        <Sort/>
+        <Categories category={category} onClickCategory={(id)=> setCategory(id)}/>
+        <Sort sortId={sortId} onClickSort={(id) => setSortId(id)}/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

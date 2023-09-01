@@ -1,11 +1,10 @@
 import { useState } from "react"
 
-export default function Sort(){
+export default function Sort({sortId, onClickSort}){
 const [visible, setVisible] = useState(false);
-const [idSelectedSort, setIdSelectedSort] = useState(0);
 
-const valuesSorting = ['популярности', 'цене', 'алфавиту'];
-const valueSelectedSort = valuesSorting[idSelectedSort]
+const valuesSorting = ['популярности', 'цене (ASC)', 'цене (DESC)', 'алфавиту (ASC)', 'алфавиту (DESC)'];
+const valueSelectedSort = valuesSorting[sortId];
 
   return (
     <div className="sort">
@@ -29,9 +28,9 @@ const valueSelectedSort = valuesSorting[idSelectedSort]
       <ul>
         {valuesSorting.map((value, index) => <li key={index} onClick={() => {
           setVisible(false);
-          setIdSelectedSort(index);
+          onClickSort(index);
         }}
-        className={idSelectedSort === index ? "active" : " "}>{value}</li>)}
+        className={sortId === index ? "active" : " "}>{value}</li>)}
       </ul>
     </div>
     )}
