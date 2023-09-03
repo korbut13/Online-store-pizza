@@ -1,13 +1,20 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 
 import { SearchContext } from "../App";
 
 export default function Search(){
   const {searchValue, setSearchValue} = useContext(SearchContext);
+  const inputRef = useRef();
+
+  const onClickClear = () => {
+    setSearchValue('');
+    inputRef.current.focus();
+  }
 
   return (
     <div className="search__root">
     <input className="search__input" placeholder="Поиск пиццы ..."
+    ref={inputRef}
     value={searchValue}
     onChange={(event)=> setSearchValue(event.target.value)}
     />
@@ -21,7 +28,7 @@ export default function Search(){
       </g>
     </svg>
     {searchValue && (<svg
-    onClick={()=> setSearchValue("")}
+    onClick={onClickClear}
     className="search__clear"
     data-name="Capa 1" id="Capa_1" viewBox="0 0 20 19.84" xmlns="http://www.w3.org/2000/svg">
       <path

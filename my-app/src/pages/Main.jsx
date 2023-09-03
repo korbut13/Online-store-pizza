@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import {useSelector, useDispatch} from 'react-redux';
+import axios from 'axios';
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -14,7 +15,7 @@ import {setCategoryId} from '../redux/slices/filterSlice'
 export default function Main(){
   const valuesSorting = ['rating', 'price&order=asc', 'price&order=desc', 'title&order=asc', 'title&order=desc'];
 
-  const {categoryId, sortId} = useSelector((state) => state.filterSlice);
+  const {categoryId, sortId, currentPage} = useSelector((state) => state.filterSlice);
 
   const dispatch = useDispatch();
   const valueSort = valuesSorting[sortId];
@@ -22,31 +23,27 @@ export default function Main(){
 
   const [pizzas, setPizzas] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
+
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id))
   }
 
   useEffect(()=> {
-    let url =  createUrl(categoryId, valueSort, searchValue, page);
+    let url =  createUrl(categoryId, valueSort, searchValue, currentPage);
 
-    fetch(url).then(response => {
-      if(response.ok){
-        return response.json()
-      }
-    }).then(resp => {
-      setPizzas(resp);
+    axios.get(url).then((resp) => {
+      setPizzas(resp.data);
       setLoading(false);
-    });
+    })
     window.scrollTo(0,0)
-  }, [categoryId, sortId, searchValue, page]);
+  }, [categoryId, sortId, searchValue, currentPage]);
 
 
   return (
     <div className="container">
     <div className="content__top">
-        <Categories category={categoryId} onClickCategory={onChangeCategory} setPage={setPage}/>
+        <Categories category={categoryId} onClickCategory={onChangeCategory} />
         <Sort/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
@@ -55,7 +52,7 @@ export default function Main(){
         ? [...new Array(8)].map((skeleton, id) => <PizzaSkeleton key={id}/>)
         : pizzas.map(pizza => <PizzaBlock key={pizza.id} {...pizza}/>)}
       </div>
-      <Pagination page={page} onChangePage={setPage}/>
+      <Pagination/>
     </div>
   )
 }
