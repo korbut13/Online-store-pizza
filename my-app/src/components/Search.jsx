@@ -1,9 +1,15 @@
-export default function Search({searchValue, onChangeSearchValue}){
+import { useContext } from "react";
+
+import { SearchContext } from "../App";
+
+export default function Search(){
+  const {searchValue, setSearchValue} = useContext(SearchContext);
+
   return (
     <div className="search__root">
     <input className="search__input" placeholder="Поиск пиццы ..."
     value={searchValue}
-    onChange={(event)=> onChangeSearchValue(event.target.value)}
+    onChange={(event)=> setSearchValue(event.target.value)}
     />
     <svg
     className="search__icon"
@@ -15,7 +21,7 @@ export default function Search({searchValue, onChangeSearchValue}){
       </g>
     </svg>
     {searchValue && (<svg
-    onClick={()=> onChangeSearchValue("")}
+    onClick={()=> setSearchValue("")}
     className="search__clear"
     data-name="Capa 1" id="Capa_1" viewBox="0 0 20 19.84" xmlns="http://www.w3.org/2000/svg">
       <path

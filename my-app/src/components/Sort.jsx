@@ -1,10 +1,21 @@
-import { useState } from "react"
+import { useState } from "react";
+import {useSelector, useDispatch} from 'react-redux';
 
-export default function Sort({sortId, onClickSort}){
+import { setSortId } from "../redux/slices/filterSlice";
+
+export default function Sort(){
+  const dispatch = useDispatch();
+  const sortId = useSelector((state) => state.filterSlice.sortId);
+
 const [visible, setVisible] = useState(false);
 
 const valuesSorting = ['популярности', 'цене (ASC)', 'цене (DESC)', 'алфавиту (ASC)', 'алфавиту (DESC)'];
 const valueSelectedSort = valuesSorting[sortId];
+
+const onChangeSort = (id) => {
+  setVisible(false);
+  dispatch(setSortId(id))
+}
 
   return (
     <div className="sort">
@@ -27,14 +38,12 @@ const valueSelectedSort = valuesSorting[sortId];
     {visible && (<div className="sort__popup">
       <ul>
         {valuesSorting.map((value, index) => <li key={index} onClick={() => {
-          setVisible(false);
-          onClickSort(index);
+          onChangeSort(index)
         }}
         className={sortId === index ? "active" : " "}>{value}</li>)}
       </ul>
     </div>
     )}
-
   </div>
   )
 }

@@ -1,26 +1,35 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import {useSelector, useDispatch} from 'react-redux';
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import PizzaSkeleton from "../components/PizzaBlockSkeleton";
-import {createUrl, createUrlWithPage} from '../utils/createUrl';
+import {createUrl} from '../utils/createUrl';
 import Pagination from "../components/Pagination";
-import { LIMIT } from "../utils/constants";
+import { SearchContext } from "../App";
+import {setCategoryId} from '../redux/slices/filterSlice'
 
-export default function Main({searchValue}){
+
+export default function Main(){
   const valuesSorting = ['rating', 'price&order=asc', 'price&order=desc', 'title&order=asc', 'title&order=desc'];
+
+  const {categoryId, sortId} = useSelector((state) => state.filterSlice);
+
+  const dispatch = useDispatch();
+  const valueSort = valuesSorting[sortId];
+  const {searchValue} = useContext(SearchContext);
 
   const [pizzas, setPizzas] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState(0);
-  const [sortId, setSortId] = useState(0);
   const [page, setPage] = useState(1);
-  const [allProducts, setAllProducts] = useState([]);
+
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id))
+  }
 
   useEffect(()=> {
-    const valueSort = valuesSorting[sortId];
-    let url =  createUrlWithPage(category, valueSort, searchValue, page);
+    let url =  createUrl(categoryId, valueSort, searchValue, page);
 
     fetch(url).then(response => {
       if(response.ok){
@@ -31,28 +40,14 @@ export default function Main({searchValue}){
       setLoading(false);
     });
     window.scrollTo(0,0)
-  }, [category, sortId, searchValue, page]);
+  }, [categoryId, sortId, searchValue, page]);
 
-
-  useEffect(()=> {
-    const valueSort = valuesSorting[sortId];
-    let url =  createUrl(category, valueSort, searchValue);
-
-    fetch(url).then(response => {
-      if(response.ok){
-        return response.json()
-      }
-    }).then(resp => {
-      setAllProducts(resp);
-    });
-    window.scrollTo(0,0)
-  }, [category, sortId, searchValue, page]);
 
   return (
     <div className="container">
     <div className="content__top">
-        <Categories category={category} onClickCategory={(id)=> setCategory(id)} setPage={setPage}/>
-        <Sort sortId={sortId} onClickSort={(id) => setSortId(id)}/>
+        <Categories category={categoryId} onClickCategory={onChangeCategory} setPage={setPage}/>
+        <Sort/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
@@ -60,7 +55,7 @@ export default function Main({searchValue}){
         ? [...new Array(8)].map((skeleton, id) => <PizzaSkeleton key={id}/>)
         : pizzas.map(pizza => <PizzaBlock key={pizza.id} {...pizza}/>)}
       </div>
-      {allProducts.length >LIMIT && (<Pagination page={page} onChangePage={setPage} amountProducts={allProducts.length}/>)}
+      <Pagination page={page} onChangePage={setPage}/>
     </div>
   )
 }
