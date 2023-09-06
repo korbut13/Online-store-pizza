@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import {setCurrentPage} from '../redux/slices/filterSlice';
 
 export default function Pagination(){
-  console.log("Pagination update")
   const dispatch = useDispatch();
   const currentPage = useSelector(state => state.filterSlice.currentPage);
 
