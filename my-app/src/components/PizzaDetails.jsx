@@ -29,11 +29,20 @@ export default function PizzaDetails(){
   (<div style={{textAlign:"center"}}>
   <PizzaDetailsLoading/>
 </div>) :
-  (<div>
-    <h1>{pizza.title}</h1>
-    <img src={pizza.imageUrl} alt="" />
-    <h3>{pizza.price} ₽</h3>
-    <h3>{pizza.rating}</h3>
+  (<div className="pizza-details__root">
+    <div className="pizza-details__cotainer-img">
+      <img className="pizza-details__img" src={pizza.imageUrl} alt="" />
+    </div>
+    <div className="pizza-details__info">
+      <h1 className="pizza-details__info_title">{pizza.title}</h1>
+      <div className="pizza-details__info_description">
+        <p className="pizza-details__info_text">{pizza.title}</p>
+        <div>
+          <h3 className="pizza-details__info_price">Price <span>{pizza.price} ₽</span></h3>
+          <h3 className="pizza-details__info_rating">Rating <span>{pizza.rating}</span></h3>
+        </div>
+      </div>
+    </div>
   </div>
   )}
     </>
