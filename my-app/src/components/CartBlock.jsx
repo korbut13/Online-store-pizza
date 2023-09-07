@@ -1,10 +1,10 @@
 import {useDispatch, useSelector} from 'react-redux';
 
-import { addItem, decrementItem, removeItem } from "../redux/slices/cartSlice";
+import { addItem, decrementItem, removeItem, selectCart} from "../redux/slices/cartSlice";
 
 export default function CartBlock({id, title, price, imageUrl, type, size, count}){
   const dispatch = useDispatch();
-  const {items} = useSelector(state => state.cartSlice)
+  const {items} = useSelector(selectCart)
   const item = {
     id,
     title,

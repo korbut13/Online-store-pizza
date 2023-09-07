@@ -1,13 +1,16 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { SearchContext } from "../App";
+import { setSearchValue, selectFilter } from "../redux/slices/filterSlice";
 
 export default function Search(){
-  const {searchValue, setSearchValue} = useContext(SearchContext);
   const inputRef = useRef();
+  const dispatch = useDispatch();
+
+  const {searchValue} = useSelector(selectFilter)
 
   const onClickClear = () => {
-    setSearchValue('');
+    dispatch(setSearchValue(''));
     inputRef.current.focus();
   }
 
@@ -16,7 +19,7 @@ export default function Search(){
     <input className="search__input" placeholder="Поиск пиццы ..."
     ref={inputRef}
     value={searchValue}
-    onChange={(event)=> setSearchValue(event.target.value)}
+    onChange={(event)=> dispatch(setSearchValue(event.target.value))}
     />
     <svg
     className="search__icon"

@@ -1,6 +1,5 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useEffect, useContext, useRef } from "react";
 import {useSelector, useDispatch} from 'react-redux';
-import axios from 'axios';
 import qs from 'qs';
 import {useNavigate}  from 'react-router-dom';
 
@@ -10,9 +9,8 @@ import PizzaBlock from "../components/PizzaBlock";
 import PizzaSkeleton from "../components/PizzaBlockSkeleton";
 import {createUrl} from '../utils/createUrl';
 import Pagination from "../components/Pagination";
-import { SearchContext } from "../App";
-import {setCategoryId, setFilters} from '../redux/slices/filterSlice';
-import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import {setCategoryId, setFilters, selectFilter} from '../redux/slices/filterSlice';
+import { fetchPizzas, selectPizza} from "../redux/slices/pizzaSlice";
 
 
 export default function Main(){
@@ -20,15 +18,14 @@ export default function Main(){
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const {categoryId, sortId, currentPage} = useSelector((state) => state.filterSlice);
-  const {items, status} = useSelector(state => state.pizzaSlice);
+  const {categoryId, sortId, currentPage, searchValue} = useSelector(selectFilter);
+  const {items, status} = useSelector(selectPizza);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   const valuesSorting = ['rating', 'price&order=asc', 'price&order=desc', 'title&order=asc', 'title&order=desc'];
   const valueSort = valuesSorting[sortId];
-  const {searchValue} = useContext(SearchContext);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id))

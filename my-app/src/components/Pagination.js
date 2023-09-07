@@ -1,10 +1,10 @@
 import ReactPaginate from 'react-paginate';
 import { useSelector, useDispatch } from 'react-redux';
-import {setCurrentPage} from '../redux/slices/filterSlice';
+import {setCurrentPage, selectFilter} from '../redux/slices/filterSlice';
 
 export default function Pagination(){
   const dispatch = useDispatch();
-  const currentPage = useSelector(state => state.filterSlice.currentPage);
+  const currentPage = useSelector(selectFilter).currentPage;
 
   const onChangePage = (id) => {
     dispatch(setCurrentPage(id))

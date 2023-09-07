@@ -1,12 +1,12 @@
 import { useState } from "react";
 import {useDispatch, useSelector} from 'react-redux';
 
-import { addItem } from "../redux/slices/cartSlice";
+import { selectCart } from "../redux/slices/cartSlice";
 import AddPizzaButton from "./AddPizzaButton";
 
 export default function PizzaBlock({id, title, price, imageUrl, sizes, types}){
   const dispatch = useDispatch();
-  const {items} = useSelector(state => state.cartSlice);
+  const {items} = useSelector(selectCart);
 
 
   const [doughType, setDoughType] = useState(types[0]);

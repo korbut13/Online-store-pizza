@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 
-import { addItem } from "../redux/slices/cartSlice";
+import { addItem, selectCart} from "../redux/slices/cartSlice";
 
 export default function AddPizzaButton ({id, title, imageUrl, price, size, type}){
-  const {items} = useSelector(state => state.cartSlice);
+  const {items} = useSelector(selectCart);
   const dispatch = useDispatch();
 
   const amountPizza = () => {
