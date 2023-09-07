@@ -30,7 +30,7 @@ export default function AddPizzaButton ({id, title, imageUrl, price, size, type}
   return(
     <div
       className="pizza-block__bottom">
-      <div className="pizza-block__price">от {price}</div>
+      <div className="pizza-block__price">от {price} ₽</div>
       <div
       onClick={onClickAdd}
       className="button button--outline button--add">
