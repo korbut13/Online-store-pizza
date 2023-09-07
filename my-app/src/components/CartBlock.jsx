@@ -26,6 +26,7 @@ export default function CartBlock({id, title, price, imageUrl, type, size, count
   }
 
   return (
+    <>
     <div className="cart__items">
       <div className="cart__item">
         <div className="cart__item-img">
@@ -73,5 +74,6 @@ export default function CartBlock({id, title, price, imageUrl, type, size, count
         </div>
     </div>
   </div>
+  </>
   )
 }
