@@ -15,7 +15,6 @@ import {setCategoryId, setFilters} from '../redux/slices/filterSlice'
 
 
 export default function Main(){
-  console.log(1)
 
   const valuesSorting = ['rating', 'price&order=asc', 'price&order=desc', 'title&order=asc', 'title&order=desc'];
 
@@ -25,6 +24,7 @@ export default function Main(){
   const {categoryId, sortId, currentPage} = useSelector((state) => state.filterSlice);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const valueSort = valuesSorting[sortId];
   const {searchValue} = useContext(SearchContext);
 
