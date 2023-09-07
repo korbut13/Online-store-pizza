@@ -31,6 +31,21 @@ export default function Main(){
   const [pizzas, setPizzas] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchPizzas = async() => {
+    try {
+      window.scrollTo(0,0);
+      let url =  createUrl(categoryId, valueSort, searchValue, currentPage);
+      const response = await axios.get(url);
+      setPizzas(response.data);
+      //setLoading(false);
+    } catch (error) {
+      console.error(error);
+
+    }finally{
+      setLoading(false);
+    }
+
+  };
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id))
@@ -60,18 +75,9 @@ export default function Main(){
 
   useEffect(()=> {
     if(!isSearch.current){
-      window.scrollTo(0,0)
-
-      let url =  createUrl(categoryId, valueSort, searchValue, currentPage);
-
-      axios.get(url).then((resp) => {
-        setPizzas(resp.data);
-        setLoading(false);
-      })
+      fetchPizzas();
     }
-
     isSearch.current = false;
-
   }, [categoryId, searchValue, currentPage, valueSort]);
 
 
