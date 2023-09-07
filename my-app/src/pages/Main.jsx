@@ -11,41 +11,24 @@ import PizzaSkeleton from "../components/PizzaBlockSkeleton";
 import {createUrl} from '../utils/createUrl';
 import Pagination from "../components/Pagination";
 import { SearchContext } from "../App";
-import {setCategoryId, setFilters} from '../redux/slices/filterSlice'
+import {setCategoryId, setFilters} from '../redux/slices/filterSlice';
+import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
 
 export default function Main(){
-
-  const valuesSorting = ['rating', 'price&order=asc', 'price&order=desc', 'title&order=asc', 'title&order=desc'];
 
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
   const {categoryId, sortId, currentPage} = useSelector((state) => state.filterSlice);
-  const navigate = useNavigate();
+  const {items, status} = useSelector(state => state.pizzaSlice);
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
+  const valuesSorting = ['rating', 'price&order=asc', 'price&order=desc', 'title&order=asc', 'title&order=desc'];
   const valueSort = valuesSorting[sortId];
   const {searchValue} = useContext(SearchContext);
-
-  const [pizzas, setPizzas] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchPizzas = async() => {
-    try {
-      window.scrollTo(0,0);
-      let url =  createUrl(categoryId, valueSort, searchValue, currentPage);
-      const response = await axios.get(url);
-      setPizzas(response.data);
-      //setLoading(false);
-    } catch (error) {
-      console.error(error);
-
-    }finally{
-      setLoading(false);
-    }
-
-  };
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id))
@@ -75,7 +58,9 @@ export default function Main(){
 
   useEffect(()=> {
     if(!isSearch.current){
-      fetchPizzas();
+      window.scrollTo(0,0);
+      let url =  createUrl(categoryId, valueSort, searchValue, currentPage);
+      dispatch(fetchPizzas(url));
     }
     isSearch.current = false;
   }, [categoryId, searchValue, currentPage, valueSort]);
@@ -109,9 +94,9 @@ export default function Main(){
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {loading
-        ? [...new Array(8)].map((skeleton, id) => <PizzaSkeleton key={id}/>)
-        : pizzas.map(pizza => <PizzaBlock key={pizza.id} {...pizza}/>)}
+        {status === 'loading'
+        ? [...new Array(8)].map((_, id) => <PizzaSkeleton key={id}/>)
+        : items.map(pizza => <PizzaBlock key={pizza.id} {...pizza}/>)}
       </div>
       <Pagination/>
     </div>
