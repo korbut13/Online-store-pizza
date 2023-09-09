@@ -1,10 +1,18 @@
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import { addItem, decrementItem, removeItem, selectCart} from "../redux/slices/cartSlice";
 
-export default function CartBlock({id, title, price, imageUrl, type, size, count}){
+type CartBlockProps = {
+  id:string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  type:string;
+  size:number;
+  count:number;
+}
+const CartBlock: React.FC<CartBlockProps> = ({id, title, price, imageUrl, type, size, count}) => {
   const dispatch = useDispatch();
-  const {items} = useSelector(selectCart)
   const item = {
     id,
     title,
@@ -12,7 +20,8 @@ export default function CartBlock({id, title, price, imageUrl, type, size, count
     imageUrl,
     type,
     size
-  }
+  };
+  console.log(111, typeof type, 444, typeof size)
   const onClickAddPizza = () => {
     dispatch(addItem(item))
   }
@@ -76,4 +85,6 @@ export default function CartBlock({id, title, price, imageUrl, type, size, count
   </div>
   </>
   )
-}
+};
+
+export default CartBlock;

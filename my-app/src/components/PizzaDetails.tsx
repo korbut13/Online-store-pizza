@@ -5,13 +5,20 @@ import { useParams } from "react-router-dom";
 import { URL } from "../utils/constants";
 import PizzaDetailsLoading from "./PizzaDetailsLoading";
 
-export default function PizzaDetails(){
+type Pizza = {
+  imageUrl: string;
+  title:string;
+  price: number;
+  rating:number;
+}
+
+const PizzaDetails:React.FC = () => {
   const {id} = useParams();
- const [pizza, setPizza] = useState();
+ const [pizza, setPizza] = useState<Pizza>();
 
   const  getPizza = async() => {
     try {
-      const {data} = await axios.get(`${URL}/${id}`);
+      const {data} = await axios.get<Pizza>(`${URL}/${id}`);
       setPizza(data)
     } catch (error) {
       console.error(error)
@@ -47,4 +54,6 @@ export default function PizzaDetails(){
   )}
     </>
   )
-}
+};
+
+export default PizzaDetails;

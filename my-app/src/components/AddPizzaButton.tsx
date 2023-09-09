@@ -2,12 +2,21 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { addItem, selectCart} from "../redux/slices/cartSlice";
 
-export default function AddPizzaButton ({id, title, imageUrl, price, size, type}){
+type ButtonProps = {
+  id: string;
+  title:string;
+  imageUrl: string;
+  price:number;
+  size:number;
+  type:string;
+}
+
+const AddPizzaButton:React.FC<ButtonProps> = ({id, title, imageUrl, price, size, type}) => {
   const {items} = useSelector(selectCart);
   const dispatch = useDispatch();
 
   const amountPizza = () => {
-    const foundPizza = items.find((item) => (item.id === id) && (item.size === size) && (item.type === type));
+    const foundPizza = items.find((item:any) => (item.id === id) && (item.size === size) && (item.type === type));
     if(foundPizza){
       return foundPizza.count;
     }else {
@@ -51,4 +60,6 @@ export default function AddPizzaButton ({id, title, imageUrl, price, size, type}
       </div>
     </div>
   )
-}
+};
+
+export default AddPizzaButton;

@@ -1,4 +1,4 @@
-export default function NotFound(){
+const NotFound:React.FC = () => {
   return(
     <>
     <div className="root">
@@ -13,4 +13,6 @@ export default function NotFound(){
     </div>
     </>
   )
-}
+};
+
+export default NotFound;

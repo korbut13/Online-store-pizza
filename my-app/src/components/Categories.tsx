@@ -1,7 +1,12 @@
 import { useDispatch } from "react-redux";
-import {setCurrentPage} from '../redux/slices/filterSlice'
+import {setCurrentPage} from '../redux/slices/filterSlice';
 
-export default function Categories({category, onClickCategory}){
+type CategoriesProps = {
+  category:number;
+  onClickCategory: (index:number) => void;
+}
+
+const Categories:React.FC<CategoriesProps> = ({category, onClickCategory}) => {
   const pizzaCategories = ["Все","Мясные","Вегетарианская","Гриль","Острые","Закрытые"];
 
   const dispatch = useDispatch();
@@ -18,4 +23,6 @@ export default function Categories({category, onClickCategory}){
     </ul>
   </div>
   )
-}
+};
+
+export default Categories;

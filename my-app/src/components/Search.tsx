@@ -3,15 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { setSearchValue, selectFilter } from "../redux/slices/filterSlice";
 
-export default function Search(){
-  const inputRef = useRef();
+const Search: React.FC = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const {searchValue} = useSelector(selectFilter)
 
   const onClickClear = () => {
     dispatch(setSearchValue(''));
-    inputRef.current.focus();
+    inputRef.current?.focus();
   }
 
   return (
@@ -39,4 +39,6 @@ export default function Search(){
     </svg>)}
     </div>
   )
-}
+};
+
+export default Search;

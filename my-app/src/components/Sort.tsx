@@ -3,27 +3,31 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import { setSortId,selectFilter } from "../redux/slices/filterSlice";
 
-export default function Sort(){
+export default function Sort():JSX.Element{
   const dispatch = useDispatch();
-  const sortId = useSelector(selectFilter).sortId;
-  const sortRef = useRef();
+  const sortId:number = useSelector(selectFilter).sortId;
+  const sortRef = useRef<HTMLDivElement>(null);
 
 const [visible, setVisible] = useState(false);
 
 const valuesSorting = ['популярности', 'цене (ASC)', 'цене (DESC)', 'алфавиту (ASC)', 'алфавиту (DESC)'];
 const valueSelectedSort = valuesSorting[sortId];
 
-const onChangeSort = (id) => {
+const onChangeSort = (id:number) => {
   setVisible(false);
   dispatch(setSortId(id))
 }
 
 useEffect(() => {
-  const handleClickOutside = (event) => {
-    if(event.target.offsetParent !== sortRef.current){
-      setVisible(false);
+  const handleClickOutside = (event:Event) => {
+    const target = event.target as HTMLBodyElement;
+    if(target){
+      if(target.offsetParent !== sortRef.current){
+        setVisible(false);
+      }
     }
   }
+
   document.body.addEventListener('click', handleClickOutside);
   return () => {
     document.body.removeEventListener('click', handleClickOutside)
