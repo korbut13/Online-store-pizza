@@ -6,12 +6,12 @@ import { clearItems, selectCart} from "../redux/slices/cartSlice";
 import CartBlock from "../components/CartBlock";
 import CartEmpty from "../components/CartEmpty";
 
-export default function Cart(){
+const Cart:React.FC = () => {
   const dispatch = useDispatch();
   const {items, totalPrice} = useSelector(selectCart);
 
   const countPizzas = () => {
-    const count = items.reduce((prev, item) => prev + item.count, 0);
+    const count = items.reduce((prev:any, item:any) => prev + item.count, 0);
     return count
   }
 
@@ -47,7 +47,7 @@ export default function Cart(){
               <span>Очистить корзину</span>
             </div>
           </div>
-          {items.map((item,index) => <CartBlock key={index} {...item}/>)}
+          {items.map((item:any,index:any) => <CartBlock key={index} {...item}/>)}
           <div className="cart__bottom">
             <div className="cart__bottom-details">
               <span> Всего пицц: <b>{countPizzas()} шт.</b> </span>
@@ -72,4 +72,6 @@ export default function Cart(){
 
     </>
   )
-}
+};
+
+export default Cart;

@@ -1,6 +1,6 @@
 import { URL, LIMIT } from "./constants";
 
-export function createUrl(category, sort, search, page){
+export function createUrl(category:number, sort:string, search:string, page:number){
   let url = `${URL}?page=${page}&limit=${LIMIT}&`;
   if(category){
     url = url+`category=${category}&`;

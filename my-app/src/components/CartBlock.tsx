@@ -19,9 +19,10 @@ const CartBlock: React.FC<CartBlockProps> = ({id, title, price, imageUrl, type, 
     price,
     imageUrl,
     type,
-    size
+    size,
+    count
   };
-  console.log(111, typeof type, 444, typeof size)
+
   const onClickAddPizza = () => {
     dispatch(addItem(item))
   }

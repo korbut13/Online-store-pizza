@@ -10,9 +10,10 @@ type PizzaBlockProps = {
   imageUrl: string;
   sizes: number[];
   types: number[];
+  count: number;
 }
 
-const PizzaBlock:React.FC<PizzaBlockProps> = ({id, title, price, imageUrl, sizes, types}) => {
+const PizzaBlock:React.FC<PizzaBlockProps> = ({id, title, price, imageUrl, sizes, types, count}) => {
   const [doughType, setDoughType] = useState(types[0]);
 
   const [size, setSize] = useState(sizes[0]);
@@ -37,7 +38,7 @@ const PizzaBlock:React.FC<PizzaBlockProps> = ({id, title, price, imageUrl, sizes
             return <li key={index} onClick={() => setSize(value)} className={size === value ? "active" : " "}>{value} см</li>
           })}
         </ul>
-        <AddPizzaButton id={id} title={title} imageUrl={imageUrl} price={price} size={size} type={typesOfDough[doughType]}/>
+        <AddPizzaButton id={id} title={title} imageUrl={imageUrl} price={price} size={size} type={typesOfDough[doughType]} count={count}/>
       </div>
   </div>
   )

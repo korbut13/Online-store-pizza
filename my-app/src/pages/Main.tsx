@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import qs from 'qs';
 import {useNavigate}  from 'react-router-dom';
 
@@ -11,27 +11,35 @@ import {createUrl} from '../utils/createUrl';
 import Pagination from "../components/Pagination";
 import {setCategoryId, setFilters, selectFilter} from '../redux/slices/filterSlice';
 import { fetchPizzas, selectPizza} from "../redux/slices/pizzaSlice";
+import { useAppDispatch } from "../redux/store";
 
 
-export default function Main(){
+const Main:React.FC = () => {
 
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
   const {categoryId, sortId, currentPage, searchValue} = useSelector(selectFilter);
   const {items, status} = useSelector(selectPizza);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
   const valuesSorting = ['rating', 'price&order=asc', 'price&order=desc', 'title&order=asc', 'title&order=desc'];
   const valueSort = valuesSorting[sortId];
 
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id:number) => {
     dispatch(setCategoryId(id))
   }
 
   useEffect(() => {
+    type FilterParams = {
+      searchValue: string,
+      categoryId: number,
+      sortId:number,
+      currentPage:number,
+    };
+
     if(window.location.search){
 
       const params = qs.parse(window.location.search.substring(1));
@@ -42,9 +50,11 @@ export default function Main(){
       });
 
       delete Object.assign(params, {sortId}).sort;
+      const p  = ({...params} as unknown) as FilterParams
       dispatch(
         setFilters({
-          ...params
+          ...p,
+
         })
       );
 
@@ -98,4 +108,6 @@ export default function Main(){
       <Pagination/>
     </div>
   )
-}
+};
+
+export default Main;

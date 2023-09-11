@@ -9,9 +9,10 @@ type ButtonProps = {
   price:number;
   size:number;
   type:string;
+  count:number;
 }
 
-const AddPizzaButton:React.FC<ButtonProps> = ({id, title, imageUrl, price, size, type}) => {
+const AddPizzaButton:React.FC<ButtonProps> = ({id, title, imageUrl, price, size, type, count}) => {
   const {items} = useSelector(selectCart);
   const dispatch = useDispatch();
 
@@ -31,7 +32,8 @@ const AddPizzaButton:React.FC<ButtonProps> = ({id, title, imageUrl, price, size,
       price,
       imageUrl,
       type,
-      size
+      size,
+      count
     }
     dispatch(addItem(item));
   }
