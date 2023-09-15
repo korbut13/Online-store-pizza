@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
-import {setCurrentPage} from '../redux/slices/filterSlice';
+import {setCurrentPage} from '../redux/filters/slice';
+import { motion as m} from "framer-motion"
 
 type CategoriesProps = {
   category:number;
@@ -14,11 +15,15 @@ const Categories:React.FC<CategoriesProps> = ({category, onClickCategory}) => {
     <div className="categories">
     <ul>
       {pizzaCategories.map((categoryName, index)=> {
-        return <li key={index} onClick={()=> {
+        return <m.li
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          key={index}
+          onClick={()=> {
           onClickCategory(index);
           dispatch(setCurrentPage(1))
         }}
-          className={category === index ? "active" : ""}>{categoryName}</li>
+          className={category === index ? "active" : ""}>{categoryName}</m.li>
       })}
     </ul>
   </div>

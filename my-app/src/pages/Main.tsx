@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import {useSelector} from 'react-redux';
 import qs from 'qs';
 import {useNavigate}  from 'react-router-dom';
+import {motion as m} from 'framer-motion';
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -9,8 +10,10 @@ import PizzaBlock from "../components/PizzaBlock";
 import PizzaSkeleton from "../components/PizzaBlockSkeleton";
 import {createUrl} from '../utils/createUrl';
 import Pagination from "../components/Pagination";
-import {setCategoryId, setFilters, selectFilter} from '../redux/slices/filterSlice';
-import { fetchPizzas, selectPizza} from "../redux/slices/pizzaSlice";
+import {setCategoryId, setFilters} from '../redux/filters/slice';
+import { selectFilter } from "../redux/filters/selectors";
+import { fetchPizzas} from "../redux/pizza/slice";
+import { selectPizza } from "../redux/pizza/selectors";
 import { useAppDispatch } from "../redux/store";
 
 
@@ -92,21 +95,28 @@ const Main:React.FC = () => {
     isMounted.current = true;
   }, [categoryId,searchValue, currentPage, valueSort])
 
-
   return (
-    <div className="container">
+    <m.div
+    initial={{opacity:0}}
+      animate={{opacity:1}}
+      transition={{duration:0.75}}
+    className="container">
     <div className="content__top">
         <Categories category={categoryId} onClickCategory={onChangeCategory} />
         <Sort/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
+      <m.div
+      initial={{opacity:0}}
+      animate={{opacity:1}}
+      transition={{duration:0.75, ease:"easeOut"}}
+      className="content__items">
         {status === 'loading'
-        ? [...new Array(8)].map((_, id) => <PizzaSkeleton key={id}/>)
+        ? [...new Array(4)].map((_, id) => <PizzaSkeleton key={id}/>)
         : items.map(pizza => <PizzaBlock key={pizza.id} {...pizza}/>)}
-      </div>
+      </m.div>
       <Pagination/>
-    </div>
+    </m.div>
   )
 };
 

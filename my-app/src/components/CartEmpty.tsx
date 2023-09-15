@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
+import {motion as m} from "framer-motion";
 
 import cartEmptyImg from '../assets/img/empty-cart.png'
 
 const CartEmpty:React.FC = () => {
   return(
-    <div className="cart cart--empty">
+    <m.div
+      initial={{x:"100%"}}
+      animate={{x:"0%"}}
+      transition={{duration:0.3, ease:"easeOut"}}
+      exit={{opacity:0}}
+     className="cart cart--empty">
       <h2>Корзина пустая 😕</h2>
       <p>
         Вероятней всего, вы не заказывали ещё пиццу.<br />
@@ -14,7 +20,7 @@ const CartEmpty:React.FC = () => {
       <Link to="/" className="button button--black">
         <span>Вернуться назад</span>
       </Link>
-    </div>
+    </m.div>
   )
 };
 

@@ -1,7 +1,8 @@
 import { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { setSearchValue, selectFilter } from "../redux/slices/filterSlice";
+import { setSearchValue } from "../redux/filters/slice";
+import { selectFilter } from "../redux/filters/selectors";
 
 const Search: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);

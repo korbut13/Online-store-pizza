@@ -20,7 +20,9 @@ const PizzaBlock:React.FC<PizzaBlockProps> = ({id, title, price, imageUrl, sizes
   const typesOfDough = ['тонкое', 'традиционное'];
 
   return (
-    <div className="pizza-block">
+    <>
+    <div
+      className="pizza-block">
       <Link to={`/pizza/${id}`}>
         <img
           className="pizza-block__image"
@@ -41,6 +43,8 @@ const PizzaBlock:React.FC<PizzaBlockProps> = ({id, title, price, imageUrl, sizes
         <AddPizzaButton id={id} title={title} imageUrl={imageUrl} price={price} size={size} type={typesOfDough[doughType]} count={count}/>
       </div>
   </div>
+    </>
+
   )
 };
 

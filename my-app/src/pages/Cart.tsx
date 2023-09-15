@@ -1,17 +1,20 @@
 import { Link } from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
+import {motion as m} from "framer-motion";
 
-import { clearItems, selectCart} from "../redux/slices/cartSlice";
+import { clearItems} from "../redux/cart/slice";
+import { selectCart } from "../redux/cart/selectors";
 
 import CartBlock from "../components/CartBlock";
 import CartEmpty from "../components/CartEmpty";
+import { PizzaCart } from "../redux/cart/types";
 
 const Cart:React.FC = () => {
   const dispatch = useDispatch();
   const {items, totalPrice} = useSelector(selectCart);
 
   const countPizzas = () => {
-    const count = items.reduce((prev:any, item:any) => prev + item.count, 0);
+    const count = items.reduce((prev:any, item:PizzaCart) => prev + item.count, 0);
     return count
   }
 
@@ -22,7 +25,11 @@ const Cart:React.FC = () => {
   return(
     <>
     {!items.length ? (<CartEmpty/>) : (
-      <div className="content">
+      <m.div
+      initial={{opacity:0}}
+      animate={{opacity:1}}
+      transition={{duration:0.8, ease:"easeOut"}}
+      className="content">
       <div className="container container--cart">
         <div className="cart">
           <div className="cart__top">
@@ -67,7 +74,7 @@ const Cart:React.FC = () => {
           </div>
         </div>
       </div>
-   </div>
+   </m.div>
     )}
 
     </>

@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 
-import { addItem, selectCart} from "../redux/slices/cartSlice";
+import { addItem} from "../redux/cart/slice";
+import { selectCart } from "../redux/cart/selectors";
 
 type ButtonProps = {
   id: string;

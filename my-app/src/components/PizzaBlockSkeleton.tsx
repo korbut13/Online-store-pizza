@@ -3,6 +3,7 @@ import ContentLoader from "react-content-loader";
 
 const PizzaSkeleton:React.FC = () => (
   <ContentLoader
+    style={{marginBottom:"53px"}}
     speed={5}
     width={285}
     height={480}

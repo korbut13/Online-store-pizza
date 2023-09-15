@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import {useSelector, useDispatch} from 'react-redux';
+import {motion as m} from 'framer-motion';
 
-import { setSortId,selectFilter } from "../redux/slices/filterSlice";
+import { setSortId } from "../redux/filters/slice";
+import { selectFilter } from "../redux/filters/selectors";
 
 export default function Sort():JSX.Element{
   const dispatch = useDispatch();
@@ -15,7 +17,7 @@ const valueSelectedSort = valuesSorting[sortId];
 
 const onChangeSort = (id:number) => {
   setVisible(false);
-  dispatch(setSortId(id))
+  dispatch(setSortId(id));
 }
 
 useEffect(() => {
@@ -51,7 +53,11 @@ useEffect(() => {
         />
       </svg>
       <b>Сортировка по:</b>
-      <span onClick={() => setVisible(!visible)}>{valueSelectedSort}</span>
+      <m.span
+        whileHover={{ scale: 1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setVisible(!visible)}>{valueSelectedSort}
+      </m.span>
     </div>
     {visible && (<div className="sort__popup">
       <ul>

@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { motion, useAnimation } from "framer-motion";
 
 import { URL } from "../utils/constants";
 import PizzaDetailsLoading from "./PizzaDetailsLoading";
@@ -13,22 +14,37 @@ type Pizza = {
 }
 
 const PizzaDetails:React.FC = () => {
-  const {id} = useParams();
+ const {id} = useParams();
  const [pizza, setPizza] = useState<Pizza>();
+
+ const controls = useAnimation();
+  const startRotation = () => {
+    const rotate = 360;
+      controls.start({
+        rotate: rotate,
+        transition: {
+          duration: 50,
+          ease: "linear",
+        },
+      });
+  };
 
   const  getPizza = async() => {
     try {
       const {data} = await axios.get<Pizza>(`${URL}/${id}`);
-      setPizza(data)
+      setPizza(data);
     } catch (error) {
       console.error(error)
     }
   };
 
   useEffect(()=> {
-    getPizza();
-
+      getPizza();
   },[]);
+
+  useEffect(() => {
+    startRotation()
+  },[pizza])
 
   return (
     <>
@@ -38,7 +54,12 @@ const PizzaDetails:React.FC = () => {
 </div>) :
   (<div className="pizza-details__root">
     <div className="pizza-details__cotainer-img">
-      <img className="pizza-details__img" src={pizza.imageUrl} alt="" />
+    <motion.img
+     initial={{ rotate: 0 }}
+     animate={controls}
+      className="pizza-details__img"
+      src={pizza.imageUrl} alt=""
+      />
     </div>
     <div className="pizza-details__info">
       <h1 className="pizza-details__info_title">{pizza.title}</h1>
@@ -50,6 +71,7 @@ const PizzaDetails:React.FC = () => {
         </div>
       </div>
     </div>
+    {/* <button style={{cursor:"pointer"}} onClick={startRotation}>Запустить вращение</button> */}
   </div>
   )}
     </>

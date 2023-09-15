@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import { Link, useLocation} from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import {motion as m} from 'framer-motion';
 
-import { selectCart } from '../redux/slices/cartSlice';
+import { selectCart } from '../redux/cart/selectors';
 import Search from './Search';
 import logoSvg from '../assets/img/pizza-logo.svg';
 
@@ -9,17 +11,26 @@ const Header:React.FC = () => {
 const {totalPrice, items} = useSelector(selectCart);
 const location = useLocation();
 
+useEffect(() => {
+  localStorage.setItem('items', JSON.stringify(items))
+},[items])
+
+
+
   return (
     <div className="header">
     <div className="container">
       <Link to='/' className="header__logo">
-        <img width="38" src={logoSvg} alt="Pizza logo" />
+        <m.img
+          whileHover={{ scale: 1 }}
+          whileTap={{ scale: 0.9 }}
+          width="38" src={logoSvg} alt="Pizza logo" />
         <div>
           <h1>React Pizza</h1>
           <p>самая вкусная пицца во вселенной</p>
         </div>
       </Link>
-      <Search />
+      {location.pathname !== '/cart' &&(<Search />)}
       {location.pathname !== '/cart' &&(<div className="header__cart">
         <Link to="/cart" className="button button--cart">
           <span>{totalPrice} ₽</span>
